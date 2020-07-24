@@ -16,7 +16,8 @@ basePath: /api
 paths:
   /books:
     get:
-      operationId: books.read_all
+      x-swagger-router-controller: books
+      operationId: read_all
       tags:
         - Books
       summary: Read the entire list of books
