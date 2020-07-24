@@ -1,14 +1,16 @@
-FROM ubuntu:18.04
+FROM python:3.7.8-slim-stretch
 
-RUN apt-get update -y
-RUN apt-get install -y python-pip python-dev build-essential
+# RUN apt-get update -y
+# RUN apt-get install -y python-pip python-dev build-essential
 
 WORKDIR /app
 
 COPY requirements.txt /app
 
-RUN pip install -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt --upgrade 
 
-ENTRYPOINT ["flask"]
-CMD ["run", "--host=0.0.0.0"]
+COPY . /app
+
+# ENTRYPOINT ["flask"]
+CMD ["flask", "run", "-h", "0.0.0.0", "-p", "5000"]
 
