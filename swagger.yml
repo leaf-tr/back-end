@@ -14,10 +14,9 @@ basePath: /api
 
 # Paths supported by the server application
 paths:
-  /books:
+  /items:
     get:
-      x-swagger-router-controller: books
-      operationId: read_all
+      operationId: items.get_all
       tags:
         - Books
       summary: Read the entire list of books
@@ -25,6 +24,60 @@ paths:
       responses:
         200:
           description: Successfully read books list operation
+          schema:
+            type: array
+            items:
+              properties:
+                isbn:
+                  type: string
+                author:
+                  type: string
+                editions:
+                  type: object
+
+  /users/{user_id}:
+    get:
+      operationId: users.get_by_id
+      tags:
+        - Users
+      summary: Read the entire list of books
+      description: Read the list of books
+      parameters:
+        - name: user_id
+          in: path
+          description: id of the user that needs to be retrieved
+          type: string
+          required: True
+      responses:
+        200:
+          description: Successfully retrieve this user's data
+          schema:
+            type: array
+            items:
+              properties:
+                username:
+                  type: string
+                fname:
+                  type: string
+                number_of_read_items:
+                  type: number    
+                              
+  /users/{user_id}/reading-library:
+    get:
+      operationId: users.get_reading_library
+      tags:
+        - Users
+      summary: Read the entire reading library of this user
+      description: Read the list of reading library items
+      parameters:
+        - name: user_id
+          in: path
+          description: id of the user that needs to be retrieved
+          type: string
+          required: True
+      responses:
+        200:
+          description: Successfully retrieve list of books for this user
           schema:
             type: array
             items:
