@@ -8,7 +8,8 @@ from datetime import datetime
 
 # 3rd party modules
 from flask import make_response, abort
-
+from firebase_config import db 
+import json
 
 def get_timestamp():
   return datetime.now().strftime(("%Y-%m-%d %H:%M:%S"))
@@ -37,6 +38,14 @@ USERS = {
   }
 }
 
+# POST api/users
+# Authenticate user
+def authenticate_user(user_data):
+  print("GOT USER", user_data)
+  db.collection('users').document(user_data.id).set(user_data)
+  print("USER", new_user_ref.id)
+  return "Authenticated user", 200
+
 # GET api/users/{id}
 def get_by_id(user_id):
   pass
@@ -46,7 +55,6 @@ def get_reading_library(user_id):
   if user_id in USERS:
     reading_library = USERS[user_id]["readingLibrary"]
   else:
-    abort(
-            404, "User with id {user_id} not found".format(user_id=user_id)
-        )
-  return reading_library
+    return 'This user does not have Reading Library', 404
+
+  return json.dumps(reading_library), 200
