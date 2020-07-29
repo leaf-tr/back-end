@@ -21,8 +21,8 @@ def authenticate_user(user_data):
   # create a new user with given id
   # or replace existing user with new given data
   # firestore automatically creates / overwrites a document w/ given id
-  db.collection('users').document(user_data.id).set(user_data)
-  return "Authenticated user", 200
+  db.collection('users').document(user_data['id']).set(user_data['data'])
+  return "Authenticated user", 201
 
 # GET api/users/{id}
 def get_by_id(user_id):
@@ -36,3 +36,8 @@ def get_reading_library(user_id):
 # param: dictionary with reading library values
 def update_reading_library(user_id):
   pass
+
+# GET api/users/{id}/sync/{goodreads}
+def sync_provider(user_id, provider_name):
+  # check if user has goodreads access token in db
+  provider_data = restore_access_token_from_db(provider_name, user_id)

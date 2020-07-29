@@ -84,10 +84,10 @@ def receive_goodreads_access_token(user_id):
   auth.close()
 
   # save to database
-  save_access_token_to_db(PROVIDER, access_token, user_id, provider_user_id)
+  save_access_token_to_db(user_id, access_token, PROVIDER, provider_user_id)
 
 def refresh_user_library(user_id):
-  goodreads_data = restore_access_token_from_db(PROVIDER, user_id)
+  goodreads_data = restore_access_token_from_db(user_id, PROVIDER)
   goodreads_user_id = goodreads_data['userId']
   oauth_token = goodreads_data['token']['oauth_token']
   oauth_token_secret = goodreads_data['token']['oauth_token_secret']

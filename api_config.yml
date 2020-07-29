@@ -1,9 +1,9 @@
-openapi: 3.0.0
+swagger: "2.0"
 
 info:
-  title: Leaf API
-  description: This is the openAPI file that goes with our server code
-  version: "1.1.0"
+  description: This is the swagger file that goes with our server code
+  version: "1.0.0"
+  title: Swagger ReST Article
 
 consumes:
   - application/json
@@ -19,8 +19,8 @@ paths:
       operationId: users.authenticate_user
       tags:
         - Users
-      summary: Authenticate user
-      description: Create a new user or overwrite existing in our database
+      summary: Create a new user in our database
+      description: Create a new user in our database
       parameters:
         - name: user_data
           in: body
@@ -29,12 +29,22 @@ paths:
           schema:
             type: object
             properties:
-              fname:
-                type: string
-                description: first name of the user
-              lname:
+              id:
                 type: string
                 description: last name of the user
+              data:
+                type: object
+                description: last name of the user
+                properties:
+                  firstName:
+                    type: string
+                    description: first name of the user
+                  lastName:
+                    type: string
+                    description: last name of the user
+                  imgUrl:
+                    type: string
+                    description: last name of the user
 
       responses:
         201:
@@ -73,7 +83,7 @@ paths:
                 fname:
                   type: string
                 number_of_read_items:
-                  type: number
+                  type: number    
                               
   /users/{user_id}/reading-library:
     get:
@@ -101,5 +111,14 @@ paths:
                   type: string
                 editions:
                   type: object
-      security:
-      - jwt: ['secret']
+                  
+securityDefinitions:
+  oauth2:
+    type: oauth2
+    flow: implicit
+    authorizationUrl: https://example.com/oauth2/dialog
+    # the token info URL is hardcoded for our mock_tokeninfo.py script
+    # you can also pass it as an environment variable TOKENINFO_URL
+    x-tokenInfoUrl: http://localhost:7979/tokeninfo
+    scopes:
+      uid: Unique identifier of the user accessing the service.

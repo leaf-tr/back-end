@@ -26,13 +26,7 @@ def home():
 
 application = app.app
 
-def decode_token(token):
-  try:
-    return jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
-  except JWTError as e:
-    six.raise_from(Unauthorized, e)
-
-# logging.basicConfig(level=logging.DEBUG)
+logging.getLogger('flask_cors').level = logging.DEBUG
 
 if __name__=='__main__':
   app.run(host='0.0.0.0', debug=True, port=5000)
