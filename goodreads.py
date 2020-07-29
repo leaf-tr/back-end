@@ -144,7 +144,8 @@ def refresh_user_library(user_id):
       'readAt': item_data.get('read_at'),
       'dateAdded': item_data.get('date_added'),
       'dateUpdated': item_data.get('date_updated'),
-      'readCount': item_data.get('read_count')
+      'readCount': item_data.get('read_count'),
+      'type': 'book'
     }
     # iterate over and save authors this book was written by
     for author in book_data['authors'].values():
@@ -161,5 +162,5 @@ def refresh_user_library(user_id):
     
     readingLibrary.append(book_obj)
 
-# receive_goodreads_access_token('1YPwuwLecA6znkm6G5cz')
+receive_goodreads_access_token('1YPwuwLecA6znkm6G5cz')
 refresh_user_library('1YPwuwLecA6znkm6G5cz')

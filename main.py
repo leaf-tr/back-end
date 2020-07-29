@@ -1,13 +1,16 @@
 from flask import render_template
 from flask_cors import CORS
+
 import connexion
+import six
+from werkzeug.exceptions import Unauthorized
 
 import logging
 
 # Create the application instance
 app = connexion.FlaskApp(__name__)
 # Read the swagger.yml file to configure the endpoints
-app.add_api('swagger.yml')
+app.add_api('api_config.yml')
 
 CORS(app.app)
 
@@ -23,14 +26,11 @@ def home():
 
 application = app.app
 
-# @app.after_request
-# def add_headers(response):
-#     response.headers.add('Content-Type', 'application/json')
-#     response.headers.add('Access-Control-Allow-Origin', '*')
-#     response.headers.add('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS')
-#     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-#     response.headers.add('Access-Control-Expose-Headers', 'Content-Type,Content-Length,Authorization,X-Pagination')
-#     return response
+def decode_token(token):
+  try:
+    return jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
+  except JWTError as e:
+    six.raise_from(Unauthorized, e)
 
 # logging.basicConfig(level=logging.DEBUG)
 
