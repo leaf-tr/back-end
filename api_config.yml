@@ -28,7 +28,7 @@ paths:
           type: string
           required: True
       responses:
-        320:
+        302:
           description: Successfully redirected user to authorize the provider 
                     
   /callback/{provider}:
@@ -45,7 +45,7 @@ paths:
           type: string
           required: True
       responses:
-        320:
+        302:
           description: Successfully redirected user upon successful authorization
 
   /users:
