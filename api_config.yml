@@ -14,6 +14,59 @@ basePath: /api
 
 # Paths supported by the server application
 paths:
+  /authorize/{provider}:
+    get:
+      operationId: provider.oauth_authorize
+      tags:
+        - Provider OAuth
+      summary: Authorize and receive temp access token
+      description: Authorize and receive temp access token
+      parameters:
+        - name: provider
+          in: path
+          description: provider name
+          type: string
+          required: True
+      responses:
+        200:
+          description: Successfully retrieve this user's data
+          schema:
+            type: array
+            items:
+              properties:
+                username:
+                  type: string
+                fname:
+                  type: string
+                number_of_read_items:
+                  type: number    
+                    
+  /callback/{provider}:
+    get:
+      operationId: provider.oauth_callback
+      tags:
+        - Provider OAuth
+      summary: Exchange temp access for perm access token
+      description: Exchange temp access for perm access token
+      parameters:
+        - name: provider
+          in: path
+          description: provider name
+          type: string
+          required: True
+      responses:
+        200:
+          description: Successfully retrieve this user's data
+          schema:
+            type: array
+            items:
+              properties:
+                username:
+                  type: string
+                fname:
+                  type: string
+                number_of_read_items:
+                  type: number    
   /users:
     post:
       operationId: users.authenticate_user
@@ -45,7 +98,6 @@ paths:
                   imgUrl:
                     type: string
                     description: last name of the user
-
       responses:
         201:
           description: Successfully created a new user
@@ -111,14 +163,17 @@ paths:
                   type: string
                 editions:
                   type: object
-                  
-securityDefinitions:
-  oauth2:
-    type: oauth2
-    flow: implicit
-    authorizationUrl: https://example.com/oauth2/dialog
-    # the token info URL is hardcoded for our mock_tokeninfo.py script
-    # you can also pass it as an environment variable TOKENINFO_URL
-    x-tokenInfoUrl: http://localhost:7979/tokeninfo
-    scopes:
-      uid: Unique identifier of the user accessing the service.
+
+# REQUEST_TOKEN_URL = GOODREADS.BASE_URL + GENERAL.OAUTH + '/request_token',
+#   AUTHORIZE_URL = GOODREADS.BASE_URL + GENERAL.OAUTH + '/authorize',
+#   ACCESS_TOKEN_URL = GOODREADS.BASE_URL + GENERAL.OAUTH + '/access_token',
+  
+# securityDefinitions:
+#   OAuth2:
+#     type: oauth2
+#     flow: accessCode
+#     authorizationUrl: https://www.goodreads.com/oauth/authorize
+#     tokenUrl: https://www.goodreads.com/oauth/access_token
+#     scopes: {} # No scopes
+#     description:
+#       Documentation: https://www.goodreads.com/api/index

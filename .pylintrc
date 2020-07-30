@@ -1,0 +1,4 @@
+[MASTER]
+disable = no-member
+indent-string='  '
+disable=C0326
