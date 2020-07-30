@@ -20,6 +20,36 @@ from db_access import restore_access_token_from_db
 
 from main import login_manager
 
+class User(object):
+  def __init__(self, fname, lname, readingLibrary):
+    self.fname = fname
+    self.lname = lname
+    self.readingLibrary = readingLibrary[]
+
+  @staticmethod
+  def from_dict(source):
+    user = User(source[u'fname'], source[u'lname'], source[u'readingLibrary'])
+    
+    return user
+
+  def to_dict(self):
+    dest = {
+      u'fname': self.fname,
+      u'lname': self.lname,
+      u'readingLibrary': self.readingLibrary
+    }
+
+    return dest
+
+  def __repr__(self):
+    return(
+      f'User(\
+          fname={self.fname}, \
+          lname={self.lname}, \
+          readingLibrary={self.readingLibrary}\
+        )'
+    )
+
 def get_timestamp():
   ''' time formatting '''
   return datetime.now().strftime(("%Y-%m-%d %H:%M:%S"))
@@ -75,3 +105,6 @@ def sync_provider(user_id, provider_name):
   # # provider has 
   # if provider_data.get('token'):
   #   print(token)
+  pass
+ 
+
