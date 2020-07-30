@@ -38,14 +38,14 @@ def update_reading_library(user_id):
   pass
  
 class User(object):
-  def __init__(self, fname, lname, ReadingiLbrary):
+  def __init__(self, fname, lname, readingLibrary):
     self.fname = fname
     self.lname = lname
-    self.ReadingLibrary = []
+    self.readingLibrary = readingLibrary[]
 
   @staticmethod
   def from_dict(source):
-    user = User(source[u'fname'], source[u'lname'], source[u'ReadingLibrary'])
+    user = User(source[u'fname'], source[u'lname'], source[u'readingLibrary'])
     
     return user
 
@@ -53,7 +53,7 @@ class User(object):
     dest = {
       u'fname': self.fname,
       u'lname': self.lname,
-      u'ReadingLibrary': self.ReadingLibrary
+      u'readingLibrary': self.readingLibrary
     }
 
     return dest
@@ -63,6 +63,6 @@ class User(object):
       f'User(\
           fname={self.fname}, \
           lname={self.lname}, \
-          ReadingLibrary={self.ReadingLibrary}\
+          readingLibrary={self.readingLibrary}\
         )'
     )
