@@ -21,22 +21,22 @@ from db_access import restore_access_token_from_db
 from main import login_manager
 
 class User(object):
-  def __init__(self, fname, lname, readingLibrary):
+  def __init__(self, fname, lname, reading_library=[]):
     self.fname = fname
     self.lname = lname
-    self.readingLibrary = readingLibrary[]
+    self.reading_library = reading_library
 
   @staticmethod
   def from_dict(source):
-    user = User(source[u'fname'], source[u'lname'], source[u'readingLibrary'])
+    user = User(source['fname'], source['lname'], source['reading_library'])
     
     return user
 
   def to_dict(self):
     dest = {
-      u'fname': self.fname,
-      u'lname': self.lname,
-      u'readingLibrary': self.readingLibrary
+      'fname': self.fname,
+      'lname': self.lname,
+      'reading_library': self.reading_library
     }
 
     return dest
@@ -46,7 +46,7 @@ class User(object):
       f'User(\
           fname={self.fname}, \
           lname={self.lname}, \
-          readingLibrary={self.readingLibrary}\
+          reading_library={self.reading_library}\
         )'
     )
 
