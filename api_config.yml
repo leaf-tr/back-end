@@ -1,9 +1,9 @@
-openapi: 3.0.0
+swagger: "2.0"
 
 info:
-  title: Leaf API
-  description: This is the openAPI file that goes with our server code
+  description: This is the swagger file that goes with our server code
   version: "1.1.0"
+  title: Leaf REST API
 
 consumes:
   - application/json
@@ -14,13 +14,47 @@ basePath: /api
 
 # Paths supported by the server application
 paths:
+  /authorize/{provider}:
+    get:
+      operationId: provider.oauth_authorize
+      tags:
+        - Provider OAuth
+      summary: Authorize and receive temp access token
+      description: Authorize and receive temp access token
+      parameters:
+        - name: provider
+          in: path
+          description: provider name
+          type: string
+          required: True
+      responses:
+        320:
+          description: Successfully redirected user to authorize the provider 
+                    
+  /callback/{provider}:
+    get:
+      operationId: provider.oauth_callback
+      tags:
+        - Provider OAuth
+      summary: Exchange temp access for perm access token
+      description: Exchange temp access for perm access token
+      parameters:
+        - name: provider
+          in: path
+          description: provider name
+          type: string
+          required: True
+      responses:
+        320:
+          description: Successfully redirected user upon successful authorization
+
   /users:
     post:
       operationId: users.authenticate_user
       tags:
         - Users
-      summary: Authenticate user
-      description: Create a new user or overwrite existing in our database
+      summary: Create a new user in our database
+      description: Create a new user in our database
       parameters:
         - name: user_data
           in: body
@@ -29,13 +63,22 @@ paths:
           schema:
             type: object
             properties:
-              fname:
-                type: string
-                description: first name of the user
-              lname:
+              id:
                 type: string
                 description: last name of the user
-
+              data:
+                type: object
+                description: last name of the user
+                properties:
+                  firstName:
+                    type: string
+                    description: first name of the user
+                  lastName:
+                    type: string
+                    description: last name of the user
+                  imgUrl:
+                    type: string
+                    description: last name of the user
       responses:
         201:
           description: Successfully created a new user
@@ -73,7 +116,7 @@ paths:
                 fname:
                   type: string
                 number_of_read_items:
-                  type: number
+                  type: number    
                               
   /users/{user_id}/reading-library:
     get:
@@ -101,5 +144,3 @@ paths:
                   type: string
                 editions:
                   type: object
-      security:
-      - jwt: ['secret']

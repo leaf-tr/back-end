@@ -1,61 +1,76 @@
+'''
+  Definition of constants
+'''
+
 # credit to https://stackoverflow.com/questions/2682745/how-do-i-create-a-constant-in-python?rq=1
 
 from collections import OrderedDict
 from copy import deepcopy
 
 class Constants(object):
-    """Container of constant"""
+  """Container of constant"""
 
-    __slots__ = ('__dict__')
+  __slots__ = ('__dict__')
 
-    def __init__(self, **kwargs):
+  def __init__(self, **kwargs):
 
-        if list(filter(lambda x: not x.isupper(), kwargs)):
-            raise AttributeError('Constant name should be uppercase.')
+    if list(filter(lambda x: not x.isupper(), kwargs)):
+      raise AttributeError('Constant name should be uppercase.')
 
-        super(Constants, self).__setattr__(
-            '__dict__',
-            OrderedDict(map(lambda x: (x[0], deepcopy(x[1])), kwargs.items()))
-        )
+    super(Constants, self).__setattr__(
+      '__dict__',
+      OrderedDict(map(lambda x: (x[0], deepcopy(x[1])), kwargs.items()))
+    )
 
-    def sort(self, key=None, reverse=False):
-        super(Constants, self).__setattr__(
-            '__dict__',
-            OrderedDict(sorted(self.__dict__.items(), key=key, reverse=reverse))
-        )
+  def sort(self, key=None, reverse=False):
+    super(Constants, self).__setattr__(
+      '__dict__',
+      OrderedDict(sorted(self.__dict__.items(), key=key, reverse=reverse))
+    )
 
-    def __getitem__(self, name):
-        return self.__dict__[name]
+  def __getitem__(self, name):
+    return self.__dict__[name]
 
-    def __len__(self):
-        return  len(self.__dict__)
+  def __len__(self):
+    return  len(self.__dict__)
 
-    def __iter__(self):
-        for name in self.__dict__:
-            yield name
+  def __iter__(self):
+    for name in self.__dict__:
+      yield name
 
-    def keys(self):
-        return list(self)
+  def keys(self):
+    return list(self)
 
-    def __str__(self):
-        return str(list(self))
+  def __str__(self):
+    return str(list(self))
 
-    def __repr__(self):
-        return '<%s: %s>' % (self.__class__.__name__, str(self.__dict__))
+  def __repr__(self):
+    return '<%s: %s>' % (self.__class__.__name__, str(self.__dict__))
 
-    def __dir__(self):
-        return list(self)
+  def __dir__(self):
+    return list(self)
 
-    def __setattr__(self, name, value):
-        raise AttributeError("Immutable attribute")
+  def __setattr__(self, name, value):
+    raise AttributeError("Immutable attribute")
 
-    def __delattr__(*_):
-        raise AttributeError("Immutable attribute")
+  def __delattr__(*_):
+    raise AttributeError("Immutable attribute")
+
+
+DATABASE_RESPONSES = Constants(
+  SUCCESS = 'Success in',
+  ERROR = 'There was an error',
+  UPDATE = ' updating the database',
+  CREATE = ' creating a record in the database',
+)
 
 # url consts
 GENERAL = Constants(
+  # API_URL = 'http://localhost:500',
   API = '/api',
-  OAUTH = '/oauth'
+  OAUTH = '/oauth',
+  REDIRECT_URI = 'http://localhost:500/api/callback',
+  FLASK_SECRET = 'FLASK_SECRET'
 )
 
 # Goodreads-specific consts
@@ -64,7 +79,6 @@ GOODREADS = Constants(
   KEY = 'GOODREADS_KEY',
   SECRET = 'GOODREADS_SECRET',
   BASE_URL = 'https://www.goodreads.com',
-  VERIFIER = 'goodreads_verifier',
 )
 
 # OAuth endpoints given in the Goodreads API documentation
