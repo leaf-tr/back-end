@@ -2,8 +2,8 @@ swagger: "2.0"
 
 info:
   description: This is the swagger file that goes with our server code
-  version: "1.0.0"
-  title: Swagger ReST Article
+  version: "1.1.0"
+  title: Leaf REST API
 
 consumes:
   - application/json
@@ -28,18 +28,8 @@ paths:
           type: string
           required: True
       responses:
-        200:
-          description: Successfully retrieve this user's data
-          schema:
-            type: array
-            items:
-              properties:
-                username:
-                  type: string
-                fname:
-                  type: string
-                number_of_read_items:
-                  type: number    
+        320:
+          description: Successfully redirected user to authorize the provider 
                     
   /callback/{provider}:
     get:
@@ -55,18 +45,9 @@ paths:
           type: string
           required: True
       responses:
-        200:
-          description: Successfully retrieve this user's data
-          schema:
-            type: array
-            items:
-              properties:
-                username:
-                  type: string
-                fname:
-                  type: string
-                number_of_read_items:
-                  type: number    
+        320:
+          description: Successfully redirected user upon successful authorization
+
   /users:
     post:
       operationId: users.authenticate_user
@@ -163,17 +144,3 @@ paths:
                   type: string
                 editions:
                   type: object
-
-# REQUEST_TOKEN_URL = GOODREADS.BASE_URL + GENERAL.OAUTH + '/request_token',
-#   AUTHORIZE_URL = GOODREADS.BASE_URL + GENERAL.OAUTH + '/authorize',
-#   ACCESS_TOKEN_URL = GOODREADS.BASE_URL + GENERAL.OAUTH + '/access_token',
-  
-# securityDefinitions:
-#   OAuth2:
-#     type: oauth2
-#     flow: accessCode
-#     authorizationUrl: https://www.goodreads.com/oauth/authorize
-#     tokenUrl: https://www.goodreads.com/oauth/access_token
-#     scopes: {} # No scopes
-#     description:
-#       Documentation: https://www.goodreads.com/api/index
