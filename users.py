@@ -14,7 +14,7 @@ from flask_login import (LoginManager,
                          logout_user,
                          current_user)
   
-from firebase_config import db
+from flask import g
 
 from db_access import restore_access_token_from_db
 
@@ -24,7 +24,7 @@ class User(object):
   def __init__(self, fname, lname, readingLibrary):
     self.fname = fname
     self.lname = lname
-    self.readingLibrary = readingLibrary[]
+    self.readingLibrary = []
 
   @staticmethod
   def from_dict(source):
@@ -65,17 +65,18 @@ def authenticate_user(user_data):
 
     for the sake of correct response code we could check if the user exists
   '''
-  db.collection('users').document(user_data['id']).set(user_data['data'])
+  g.db.collection('users').document(user_data['id']).set(user_data['data'])
   return "Authenticated user", 201
 
 def get_by_id(user_id):
   ''' GET api/users/{id} '''
   pass
 
-@login_required
+# @login_required
 def get_reading_library(user_id):
   ''' GET api/users/{id}/reading-library '''
-  pass
+  print("got user", user_id)
+  return user_id
 
 @login_required
 def update_reading_library(user_id):
