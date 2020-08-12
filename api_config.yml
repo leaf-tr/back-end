@@ -29,7 +29,13 @@ paths:
           required: True
       responses:
         302:
-          description: Successfully redirected user to authorize the provider 
+          description: A link for user to go to authorize the provider
+          # schema:
+          #   type: object
+          #   properties:
+          #     link:
+          #       type: string
+          #       description: link for the user redirect
                     
   /callback/{provider}:
     get:

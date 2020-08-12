@@ -5,10 +5,11 @@ such as CORS, connexion, and flask_login are connected
 
 import logging
 
+from datetime import datetime, timedelta
 from os import environ as env
 from dotenv import load_dotenv, find_dotenv
 
-from flask import render_template
+from flask import render_template, session
 from flask_login import LoginManager
 from flask_cors import CORS
 
@@ -36,6 +37,7 @@ FLASK_APP = APP_INSTANCE.app
 GOODREADS_KEY = env.get(GOODREADS.KEY)
 GOODREADS_SECRET = env.get(GOODREADS.SECRET)
 SECRET_KEY = env.get(GENERAL.FLASK_SECRET)
+FLASK_APP.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
 
 # make sure env vars exist
 if GOODREADS_KEY is None or GOODREADS_SECRET is None or SECRET_KEY is None:
@@ -43,6 +45,7 @@ if GOODREADS_KEY is None or GOODREADS_SECRET is None or SECRET_KEY is None:
     in .env file'.format(GOODREADS_KEY, GOODREADS_SECRET, SECRET_KEY))
 
 # put env vars to good use
+# FLASK_APP.config['SESSION_COOKIE_DOMAIN'] = 'http://127.0.0.1:3000'
 FLASK_APP.config['SECRET_KEY'] = env.get(GENERAL.FLASK_SECRET)
 FLASK_APP.config['OAUTH_CREDENTIALS'] = {
   'goodreads': {
@@ -51,7 +54,7 @@ FLASK_APP.config['OAUTH_CREDENTIALS'] = {
   }
 }
 
-login_manager.init_app(FLASK_APP)
+# login_manager.init_app(FLASK_APP)
 
 CORS(FLASK_APP)
 
@@ -66,8 +69,8 @@ def home():
   return render_template('home.html')
 
 
-logging.getLogger('flask_cors').level = logging.DEBUG
+# logging.basicConfig(level=logging.DEBUG)
 
 
 if __name__ == '__main__':
-  FLASK_APP.run(host='0.0.0.0', debug=True, port=5000)
+  FLASK_APP.run()

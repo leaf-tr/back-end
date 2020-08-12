@@ -3,17 +3,23 @@ provider module for managing provider OAuth and callback routes
 '''
 
 from flask import redirect
+from flask_cors import cross_origin
 
 from oauth import OAuthSignIn
 
 from db_access import save_access_token_to_db
 
+@cross_origin(supports_credentials=True)
 def oauth_authorize(provider):
   '''
   '''
   oauth = OAuthSignIn.get_provider(provider)
-  return oauth.authorize()
 
+  oauth_url = oauth.authorize()
+
+  return oauth_url
+
+@cross_origin(supports_credentials=True)
 def oauth_callback(provider):
   '''
   '''
@@ -35,4 +41,4 @@ def oauth_callback(provider):
   #   db.session.add(user)
   #   db.session.commit()
   # login_user(user, True)
-  return redirect('http://localhost:3000')
+  return redirect('http://localhost:3000/dashboard?authorizedProvider=1')

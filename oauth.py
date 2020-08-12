@@ -34,12 +34,12 @@ class OAuthSignIn(object):
 
   @classmethod
   def get_provider(self, provider_name):
-      if self.providers is None:
-          self.providers = {}
-          for provider_class in self.__subclasses__():
-              provider = provider_class()
-              self.providers[provider.provider_name] = provider
-      return self.providers[provider_name]
+    if self.providers is None:
+      self.providers = {}
+      for provider_class in self.__subclasses__():
+        provider = provider_class()
+        self.providers[provider.provider_name] = provider
+    return self.providers[provider_name]
 
 
 class GoodreadsOAuth(OAuthSignIn):
@@ -64,14 +64,19 @@ class GoodreadsOAuth(OAuthSignIn):
         params={'oauth_callback': self.get_callback_url()}
       )
     session['request_token'] = request_token
+    # mark session as modified
+    session.modified = True
+    session.permanent = True
+    # currSession = session
+    print("authorize SESSION", session)
 
-    return redirect(self.service.get_authorize_url(request_token[0]))
-
+    return self.service.get_authorize_url(request_token[0])
 
   def callback(self):
     '''
     '''
-    request_token = session.pop('request_token')
+    print("callback SESSION", session)
+    request_token = session.pop('request_token', None)
 
     # Gets an access token, intializes a new authenticated session
     # with the access token. Returns an instance of session_obj
@@ -82,7 +87,7 @@ class GoodreadsOAuth(OAuthSignIn):
 
     # get access token from oauth_session
     access_token = oauth_session.access_token
-
+    print("ACCESS TOKEN", access_token)
     # use authenticated session to get user's goodreads id
     response = oauth_session.get('/api/auth_user')
     try:
